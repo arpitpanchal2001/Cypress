@@ -1,0 +1,8 @@
+{
+  "name": "Arpit",
+  "email": "arpitpanchal2643@gmail.com",
+  "password": 12345566 ,
+  "gender" : "Male",
+  "date" : "2001-09-06",
+  "productName" : ["Blackberry","Nokia Edge"]
+}
