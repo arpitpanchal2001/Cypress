@@ -15,7 +15,9 @@ describe("Making different class for all page and using it to bind the data", fu
             cy.addProductWithName(productName)
         })
         Productpage.getCheckoutButton().click()
-        cy.log(Productpage.total())
+        Productpage.total().then((result) => {
+            cy.log("Total: " + result);
+        });
 
     })
 })
