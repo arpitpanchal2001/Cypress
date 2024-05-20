@@ -42,7 +42,7 @@ describe('Moking api using intercept', function () {
         {
 
             "name":"Learn Appium Automation with Java",
-            "isbn":"abc",
+            "isbn":"abdawdc",
             "aisle":"2278",
             "author":"John foe"
             }).then(function(response){

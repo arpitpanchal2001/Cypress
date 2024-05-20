@@ -17,6 +17,60 @@ Cypress.Commands.add('addProductWithName', (productName) => {
 }) })
 
 
+Cypress.Commands.add('firstLogin',function(userEmail,password){
+
+    console.log("helllooooo")
+    cy.visit('https://rahulshettyacademy.com/client')
+    cy.get('#userEmail').type(userEmail)
+    cy.get('#userPassword').type(password)
+    cy.intercept('POST','https://rahulshettyacademy.com/api/ecom/auth/login',
+    (req)=>{
+        console.log('inside intercept')
+       
+        Cypress.env('userEmail',userEmail)
+        console.log('lets see email' + Cypress.env('userEmail'))
+
+        Cypress.env('password',password)
+
+        req.continue((res) => {
+            console.log("inside res");
+            console.log("token " + res.body.token)
+        Cypress.env('token',res.body.token)
+        const tok = res.body.token
+        Cypress.env('token',tok)
+       
+        console.log('lets see token' + Cypress.env('token'))
+
+        // console.log(Cypress.env('token',res.body.token))
+        })
+        
+    }).as('handeling')
+    
+   
+    cy.get('input[type*="submit"]').click()
+    cy.wait('@handeling')
+})
+Cypress.Commands.add('loginApi' , function(){
+    cy.request('POST','https://rahulshettyacademy.com/api/ecom/auth/login',
+    {"userEmail":Cypress.env('userEmail'),"userPassword":Cypress.env('password')}).then(function(response){
+        expect(response.status).to.eq(200)
+        Cypress.env('token',response.body.token)
+    })
+})
+Cypress.Commands.add('previousLogin',function(){
+                console.log('lets see email' + Cypress.env('userEmail'))
+                // console.log('lets see token' + Cypress.env('token'))
+    
+                cy.visit('https://rahulshettyacademy.com/client',
+                {
+                    onBeforeLoad:function(window){
+                        window.localStorage.setItem('token' ,Cypress.env('token'))
+                        
+                    }
+                })
+            })
+
+
 //
 // -- This is a parent command --
 // Cypress.Commands.add('login', (email, password) => { ... })
